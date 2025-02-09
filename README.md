@@ -4,7 +4,7 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 
-O projeto é uma API construída usando **Java 17, Java Spring, MYSQL e H2 as the database.** 
+O projeto é uma API construída usando **Java 17, Java Spring, RabbitMq, MYSQL the database.** 
 
 
 ## Índice
