@@ -1,5 +1,6 @@
 package br.com.order.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class ItensPedidoModel implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NUMERO_ORDER")
+    @JsonIgnore // Evita a recursão infinita
     private PedidoModel pedido;
 
     @Column(name = "NUMERO_PEDIDO")

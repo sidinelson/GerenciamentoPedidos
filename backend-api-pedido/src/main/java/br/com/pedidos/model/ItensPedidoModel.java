@@ -1,6 +1,7 @@
 package br.com.pedidos.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class ItensPedidoModel implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "NUMERO_ORDER")
+    @JsonIgnore // Evita a recursão infinita
     private PedidoModel pedido;
 
     @Column(name = "NUMERO_PEDIDO")

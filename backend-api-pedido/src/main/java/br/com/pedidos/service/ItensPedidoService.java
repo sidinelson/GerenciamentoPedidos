@@ -47,11 +47,10 @@ public class ItensPedidoService {
             itensPedidoRequest.setQuantidade(1);
         }
         PedidoModel auxPedido = new PedidoModel();
-        Long numeroOrder = pedidoRepository.findBynumeroPedido(itensPedidoRequest.getNumeroPedido());
+        Long numeroOrder = pedidoRepository.findBynumeroIDPedido(itensPedidoRequest.getNumeroPedido());
         auxPedido.setNumeroOrder(numeroOrder);
         itensPedidoRequest.setPedido(auxPedido);
         calcularItens(itensPedidoRequest);
-        //itensPedidoRepository.save(itensPedidoRequest);
         try {
             ItensPedidoDTO auxItemPedidoDTO = modelMapper.map(itensPedidoRequest, ItensPedidoDTO.class);
 

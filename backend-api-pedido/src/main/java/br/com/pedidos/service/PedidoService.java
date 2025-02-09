@@ -104,9 +104,11 @@ public class PedidoService {
 
     public PedidoModel consultarPedido(Long numeroPedido) {
         PedidoModel pedido = pedidoRepository.buscarPedidoComItens(numeroPedido);
+
         if (pedido == null) {
             throw new RuntimeException("Pedido não encontrado com o número: " + numeroPedido);
         }
+
         return pedido;
     }
 

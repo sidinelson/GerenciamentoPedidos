@@ -25,12 +25,6 @@ public interface ItensPedidoRepository extends JpaRepository<ItensPedidoModel, L
             + " ORDER BY i.dataCadastro ASC")//JPQL
     List<ItensPedidoModel> findBylistaNumeroPedidosItens(@Param("numeroPedido") Long numeroPedido);
 
-    @Query(" SELECT i, p.dataCadastro, p.valorTotal from ItensPedidoModel i "
-            + " INNER JOIN i.pedido p"
-            + " WHERE i.pedido.dataCadastro =:dataCadastro  "
-            + " ORDER BY i.dataCadastro ASC")//JPQL
-    Optional<ItensPedidoModel> findBylistaDataPedidosItens(LocalDate dataCadastro);
-
     @Query(" select i, p.dataCadastro, p.valorTotal from ItensPedidoModel i "
         + " inner join i.pedido p"
         + " order by i.dataCadastro asc")//JPQL

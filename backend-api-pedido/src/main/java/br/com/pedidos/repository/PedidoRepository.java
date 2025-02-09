@@ -14,17 +14,9 @@ import java.util.Optional;
 @Repository
 public interface PedidoRepository extends JpaRepository<PedidoModel, Long> {
     @Query("FROM PedidoModel p WHERE p.numeroPedido =:numeroPedido")//JPQL
-    Optional<PedidoModel> findBynumeroOrder(@Param("numeroPedido") Long numeroPedido);
-    @Query("FROM PedidoModel p WHERE p.numeroPedido =:numeroPedido")//JPQL
     PedidoModel findByPedido(@Param("numeroPedido") Long numeroPedido);
     @Query("SELECT ID FROM PedidoModel p WHERE p.numeroPedido =:numeroPedido")//JPQL
-    Long findBynumeroPedido(@Param("numeroPedido") Long numeroPedido);
-    @Query(" SELECT i, p.dataCadastro, p.descontoTotal, p.valorTotal FROM ItensPedidoModel i "
-            + " LEFT JOIN i.pedido p"
-            + " WHERE p.numeroPedido = :numeroPedido  "
-            + " ORDER BY i.dataCadastro ASC")//JPQL
-    PedidoModel findByPedidosItens(@Param("numeroPedido") Long numeroPedido);
-
+    Long findBynumeroIDPedido(@Param("numeroPedido") Long numeroPedido);
     @Query("SELECT p FROM PedidoModel p LEFT JOIN FETCH p.itens WHERE p.numeroPedido = :numeroPedido")
     PedidoModel buscarPedidoComItens(@Param("numeroPedido") Long numeroPedido);
 
