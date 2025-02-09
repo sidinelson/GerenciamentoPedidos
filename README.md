@@ -23,7 +23,7 @@ O projeto é uma API construída usando **Java 17, Java Spring, RabbitMq, MYSQL 
 1. Clone the repository:
 
 ```bash
-git clone git clone https://github.com/sidinelson/GerenciamentoPedidos.git
+git clone https://github.com/sidinelson/GerenciamentoPedidos.git
 ```
 
 2. Instalar dependências no Maven
