@@ -2,6 +2,7 @@ package br.com.pedidos.model;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,7 @@ public class PedidoModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numeroOrder;
 
-    @Column(name = "NUMERO_PEDIDO", unique = true, nullable = false)
+    @Column(name = "NUMERO_PEDIDO", nullable = false)
     private Long numeroPedido;
 
     @Column(name = "DATA_CADASTRO", nullable = false)
@@ -40,5 +41,6 @@ public class PedidoModel implements Serializable {
     private BigDecimal valorTotal;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JsonManagedReference
     private List<ItensPedidoModel> itens;
 }

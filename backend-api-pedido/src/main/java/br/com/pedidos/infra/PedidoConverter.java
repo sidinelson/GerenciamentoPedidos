@@ -1,7 +1,7 @@
 package br.com.pedidos.infra;
 
-import br.com.pedidos.dto.ItensPedidoDTO;
-import br.com.pedidos.dto.PedidoDTO;
+import br.com.pedidos.dto.ItensPedidoDto;
+import br.com.pedidos.dto.PedidoDto;
 import br.com.pedidos.model.ItensPedidoModel;
 import br.com.pedidos.model.PedidoModel;
 
@@ -21,21 +21,18 @@ public class PedidoConverter {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PedidoDTO converterParaDTO(PedidoModel pedidoModel) {
+    public PedidoDto converterParaDTO(PedidoModel pedidoModel) {
 
-        // Converte de Pedido para PedidoDTO
+        // Converte de Pedido para PedidoDto
 
         if (pedidoModel == null) {
             return null;
         }
 
-        /*List<ItensPedidoDTO> itensDTO = pedidoModel.getItens().stream()
-                .map(this::toItemPedidoDTO)
-                .collect(Collectors.toList());*/
-        List<ItensPedidoDTO> itensDTO = new ArrayList<>();
+        List<ItensPedidoDto> itensDTO = new ArrayList<>();
 
         for (ItensPedidoModel item : pedidoModel.getItens()) {
-            ItensPedidoDTO  dto = new ItensPedidoDTO();
+            ItensPedidoDto dto = new ItensPedidoDto();
             dto.setIdItensPedido(item.getIdItensPedido());
             dto.setNumeroPedido(item.getNumeroPedido()); // Número do pedido
             dto.setCodigoProduto(item.getCodigoProduto());
@@ -49,7 +46,8 @@ public class PedidoConverter {
             itensDTO.add(dto);
         }
 
-        return new PedidoDTO(
+        return new PedidoDto(
+                pedidoModel.getNumeroOrder(),
                 pedidoModel.getNumeroPedido(),
                 pedidoModel.getDataCadastro(),
                 pedidoModel.getSituacao(),
@@ -59,8 +57,8 @@ public class PedidoConverter {
         );
     }
 
-    // Converte de PedidoDTO para Pedido (entidade)
-    public PedidoModel toEntity(PedidoDTO pedidoDTO) {
+    // Converte de PedidoDto para Pedido (entidade)
+    public PedidoModel toEntity(PedidoDto pedidoDTO) {
         if (pedidoDTO == null) {
             return null;
         }
@@ -86,8 +84,8 @@ public class PedidoConverter {
 
 
 
-    // Método auxiliar para converter ItensPedidoDTO para ItemPedido (entidade)
-    private ItensPedidoModel toItemPedidoEntity(ItensPedidoDTO dto) {
+    // Método auxiliar para converter ItensPedidoDto para ItemPedido (entidade)
+    private ItensPedidoModel toItemPedidoEntity(ItensPedidoDto dto) {
         ItensPedidoModel item = new ItensPedidoModel();
         item.setIdItensPedido(dto.getIdItensPedido());
         item.setNumeroPedido(dto.getNumeroPedido());

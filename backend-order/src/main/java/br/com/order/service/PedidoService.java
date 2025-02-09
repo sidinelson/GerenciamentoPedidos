@@ -3,9 +3,13 @@ package br.com.order.service;
 
 
 import br.com.order.dto.ItemPedidoResponse;
+import br.com.order.model.ItensPedidoModel;
 import br.com.order.model.PedidoModel;
+import br.com.order.model.ProdutoExternoBModel;
 import br.com.order.repository.ItensPedidoRepository;
 import br.com.order.repository.PedidoRepository;
+import br.com.order.repository.ProdutoExternoBRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,9 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
+
+    @Autowired
+    private ProdutoExternoBRepository produtoExternoBRepository;
     @Autowired
     private ItensPedidoRepository itensPedidoRepository;
 
@@ -97,12 +104,29 @@ public class PedidoService {
         return pedidoRepository.save(pedidoExistente);
     }
 
-    public List<ItemPedidoResponse> findByItensPedidosPedidos(Long numeroPedido) {
-        return
-                itensPedidoRepository.findBylistaNumeroPedidosItens(numeroPedido)
-                        .stream()
-                        .map(ItemPedidoResponse::of)
-                        .collect(Collectors.toList());
+
+
+    public String fecharPedido(PedidoModel pedidoModel){
+        pedidoRepository.save(pedidoModel);
+
+
+        List<ItensPedidoModel> itens = itensPedidoRepository.findByItensPedidos(pedidoModel.getNumeroPedido());
+        if (!isEmpty(itens)) {
+            for (var item : itens) {
+                ProdutoExternoBModel produto = new ProdutoExternoBModel();
+                produto.setNumeroPedido(item.getNumeroPedido());
+                produto.setDataCadastro(item.getDataCadastro());
+                produto.setProduto(item.getCodigoProduto());
+                produto.setDescricaoProduto(item.getDescricaoProduto());
+                produto.setQuantidade(item.getQuantidade());
+                produto.setDesconto(item.getDesconto());
+                produto.setPreco(item.getPreco());
+                produto.setValorTotal(item.getValorTotal());
+                produtoExternoBRepository.save(produto);
+            }
+        }
+
+        return "Pedido fechado com sucesso...";
     }
 
 }

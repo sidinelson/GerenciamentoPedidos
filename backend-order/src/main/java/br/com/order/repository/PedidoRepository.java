@@ -18,7 +18,6 @@ public interface PedidoRepository extends JpaRepository<PedidoModel, Long> {
 
     @Query("SELECT ID FROM PedidoModel p WHERE p.numeroPedido =:numeroPedido")//JPQL
     Long findBynumeroPedido(@Param("numeroPedido") Long numeroPedido);
-
     boolean existsByNumeroPedido(Long numeroPedido);
 
 }

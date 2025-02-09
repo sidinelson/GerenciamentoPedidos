@@ -17,7 +17,7 @@ public interface ItensPedidoRepository extends JpaRepository<ItensPedidoModel, L
     @Query("FROM ItensPedidoModel i WHERE i.numeroPedido =:numeroPedido  ")//JPQL
     Optional<ItensPedidoModel> existeNumeroControle(@Param("numeroPedido") Long  numeroPedido);
     @Query("FROM ItensPedidoModel i WHERE i.numeroPedido =:numeroPedido")//JPQL
-    List<ItensPedidoModel> findByItensPedidosPedidos(@Param("numeroPedido") Long  numeroPedido);
+    List<ItensPedidoModel> findByItensPedidos(@Param("numeroPedido") Long  numeroPedido);
 
     @Query(" SELECT i, p.numeroOrder, p.descontoTotal, p.valorTotal FROM ItensPedidoModel i "
             + " LEFT JOIN FETCH i.pedido p"
@@ -25,10 +25,6 @@ public interface ItensPedidoRepository extends JpaRepository<ItensPedidoModel, L
             + " ORDER BY i.dataCadastro ASC")//JPQL
     List<ItensPedidoModel> findBylistaNumeroPedidosItens(@Param("numeroPedido") Long numeroPedido);
 
-    @Query(" select i, p.dataCadastro, p.valorTotal from ItensPedidoModel i "
-        + " inner join i.pedido p"
-        + " order by i.dataCadastro asc")//JPQL
-    Optional<ItensPedidoModel> findBylistaTodosPedidosItens();
 
     @Modifying
     @Query("UPDATE ItensPedidoModel i SET i.pedido = :pedido WHERE i.numeroPedido = :numeroPedido")

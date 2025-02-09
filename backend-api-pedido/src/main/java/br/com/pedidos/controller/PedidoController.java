@@ -35,8 +35,7 @@ public class PedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar cadastro de PedidoModel"),
     })
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},
-                 consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping
     public String save(@RequestBody PedidoModel pedidoRequest){
 
         return pedidoService.save(pedidoRequest);

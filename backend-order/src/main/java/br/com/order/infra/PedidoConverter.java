@@ -1,7 +1,7 @@
 package br.com.order.infra;
 
-import br.com.order.dto.ItensPedidoDTO;
-import br.com.order.dto.PedidoDTO;
+import br.com.order.dto.ItensPedidoDto;
+import br.com.order.dto.PedidoDto;
 import br.com.order.model.ItensPedidoModel;
 import br.com.order.model.PedidoModel;
 import org.springframework.stereotype.Component;
@@ -14,18 +14,18 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @Component
 public class PedidoConverter {
 
-    public PedidoDTO converterParaDTO(PedidoModel pedidoModel) {
+    public PedidoDto converterParaDTO(PedidoModel pedidoModel) {
 
-        // Converte de Pedido para PedidoDTO
+        // Converte de Pedido para PedidoDto
 
         if (pedidoModel == null) {
             return null;
         }
 
-        List<ItensPedidoDTO> itensDTO = new ArrayList<>();
+        List<ItensPedidoDto> itensDTO = new ArrayList<>();
 
         for (ItensPedidoModel item : pedidoModel.getItens()) {
-            ItensPedidoDTO dto = new ItensPedidoDTO();
+            ItensPedidoDto dto = new ItensPedidoDto();
             dto.setIdItensPedido(item.getIdItensPedido());
             dto.setNumeroPedido(item.getNumeroPedido()); // Número do pedido
             dto.setCodigoProduto(item.getCodigoProduto());
@@ -39,7 +39,8 @@ public class PedidoConverter {
             itensDTO.add(dto);
         }
 
-        return new PedidoDTO(
+        return new PedidoDto(
+                pedidoModel.getNumeroOrder(),
                 pedidoModel.getNumeroPedido(),
                 pedidoModel.getDataCadastro(),
                 pedidoModel.getSituacao(),
@@ -49,8 +50,8 @@ public class PedidoConverter {
         );
     }
 
-    // Converte de PedidoDTO para Pedido (entidade)
-    public PedidoModel toEntity(PedidoDTO pedidoDTO) {
+    // Converte de PedidoDto para Pedido (entidade)
+    public PedidoModel toEntity(PedidoDto pedidoDTO) {
         if (pedidoDTO == null) {
             return null;
         }
@@ -58,7 +59,7 @@ public class PedidoConverter {
         List<ItensPedidoModel> itensModel = new ArrayList<>();
         if (!isEmpty(pedidoDTO.getItens())) {
 
-            for (ItensPedidoDTO item : pedidoDTO.getItens()) {
+            for (ItensPedidoDto item : pedidoDTO.getItens()) {
                 ItensPedidoModel model = new ItensPedidoModel();
                 model.setIdItensPedido(item.getIdItensPedido());
                 model.setNumeroPedido(item.getNumeroPedido()); // Número do pedido
@@ -75,6 +76,7 @@ public class PedidoConverter {
         }
 
         PedidoModel pedido = new PedidoModel();
+        pedido.setNumeroOrder(pedidoDTO.getNumeroOrder());
         pedido.setNumeroPedido(pedidoDTO.getNumeroPedido());
         pedido.setDataCadastro(pedidoDTO.getDataCadastro());
         pedido.setSituacao(pedidoDTO.getSituacao());
@@ -84,8 +86,8 @@ public class PedidoConverter {
         return pedido;
     }
 
-    // Método auxiliar para converter ItensPedidoDTO para ItemPedido (entidade)
-    private ItensPedidoModel toItemPedidoEntity(ItensPedidoDTO dto) {
+    // Método auxiliar para converter ItensPedidoDto para ItemPedido (entidade)
+    private ItensPedidoModel toItemPedidoEntity(ItensPedidoDto dto) {
         ItensPedidoModel item = new ItensPedidoModel();
         item.setIdItensPedido(dto.getIdItensPedido());
         item.setNumeroPedido(dto.getNumeroPedido());

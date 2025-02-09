@@ -23,7 +23,7 @@ public class PedidoModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numeroOrder;
 
-    @Column(name = "NUMERO_PEDIDO", unique = true, nullable = false)
+    @Column(name = "NUMERO_PEDIDO", nullable = false)
     private Long numeroPedido;
 
     @Column(name = "DATA_CADASTRO", nullable = false)

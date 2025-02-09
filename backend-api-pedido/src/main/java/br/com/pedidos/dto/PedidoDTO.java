@@ -15,10 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PedidoDTO implements Serializable {
+public class PedidoDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @JsonProperty("numeroOrder")
+    private Long numeroOrder;
     @JsonProperty("numeroPedido")
     private Long numeroPedido;
     @JsonProperty("dataCadastro")
@@ -30,7 +31,7 @@ public class PedidoDTO implements Serializable {
     @JsonProperty("valorTotal")
     private BigDecimal valorTotal;
     @JsonProperty("itens")
-    private List<ItensPedidoDTO> itens;
+    private List<ItensPedidoDto> itens;
 
 
 }

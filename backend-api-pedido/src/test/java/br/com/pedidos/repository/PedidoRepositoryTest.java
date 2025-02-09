@@ -1,6 +1,6 @@
 package br.com.pedidos.repository;
 
-import br.com.pedidos.dto.PedidoDTO;
+import br.com.pedidos.dto.PedidoDto;
 import br.com.pedidos.model.PedidoModel;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ public class PedidoRepositoryTest {
     @DisplayName("Consulta findBynumeroPedidos com Sucesso! ")
     void findBynumeroPedidos() {
 
-        /*PedidoDTO data = new PedidoDTO(null,LocalDate.now(),null, null, null, null);
+        /*PedidoDto data = new PedidoDto(null,LocalDate.now(),null, null, null, null);
         this.createPedido(data);
 
         Optional<PedidoModel> result = this.pedidoRepository.findBynumeroPedidos(123);
@@ -44,7 +44,7 @@ public class PedidoRepositoryTest {
         assertThat(result.isEmpty()).isTrue();
     }
 
-    private PedidoModel createPedido(PedidoDTO data){
+    private PedidoModel createPedido(PedidoDto data){
         /*PedidoModel pedido = new PedidoModel(data);
         this.entityManager.persist(pedido);
         return pedido;*/

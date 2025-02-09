@@ -68,7 +68,7 @@ public class ItensPedidoService {
         var pedido = new PedidoModel();
         pedido.setNumeroPedido(numeroPedido);
         return itensPedidoRepository
-                .findByItensPedidosPedidos(numeroPedido);
+                .findByItensPedidos(numeroPedido);
     }
 
     public Optional<ItensPedidoModel> duplicidadeProduto(String itensPedidoRequest) {

@@ -1,7 +1,6 @@
 package br.com.pedidos.service;
 
-import br.com.pedidos.dto.ItensPedidoDTO;
-import br.com.pedidos.dto.PedidoDTO;
+import br.com.pedidos.dto.ItensPedidoDto;
 import br.com.pedidos.infra.ValidationException;
 import br.com.pedidos.model.ItensPedidoModel;
 import br.com.pedidos.model.PedidoModel;
@@ -52,7 +51,7 @@ public class ItensPedidoService {
         itensPedidoRequest.setPedido(auxPedido);
         calcularItens(itensPedidoRequest);
         try {
-            ItensPedidoDTO auxItemPedidoDTO = modelMapper.map(itensPedidoRequest, ItensPedidoDTO.class);
+            ItensPedidoDto auxItemPedidoDTO = modelMapper.map(itensPedidoRequest, ItensPedidoDto.class);
 
             itensPedidoProducer.enviarItemPedidoParaFila(auxItemPedidoDTO);
         } catch (JsonProcessingException e) {

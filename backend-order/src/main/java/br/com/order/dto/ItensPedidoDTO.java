@@ -1,8 +1,6 @@
 package br.com.order.dto;
 
 import br.com.order.model.PedidoModel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,12 +10,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ItensPedidoDTO {
+public class ItensPedidoDto {
 
     @JsonProperty("idItensPedido")
     private Long idItensPedido;
     @JsonProperty("pedido")
-    private PedidoDTO pedido;
+    private PedidoDto pedido;
     @JsonProperty("numeroPedido")
     private Long numeroPedido;
     private LocalDate dataCadastro;
@@ -34,7 +32,7 @@ public class ItensPedidoDTO {
     @JsonProperty("valorTotal")
     private BigDecimal valorTotal;
 
-    public ItensPedidoDTO(Long idItensPedido, PedidoDTO pedido, Long numeroPedido, LocalDate dataCadastro, String codigoProduto, String descricaoProduto, Integer quantidade, BigDecimal desconto, BigDecimal preco, BigDecimal valorTotal) {
+    public ItensPedidoDto(Long idItensPedido, PedidoDto pedido, Long numeroPedido, LocalDate dataCadastro, String codigoProduto, String descricaoProduto, Integer quantidade, BigDecimal desconto, BigDecimal preco, BigDecimal valorTotal) {
         this.idItensPedido = idItensPedido;
         this.pedido = pedido;
         this.numeroPedido = numeroPedido;
@@ -47,11 +45,11 @@ public class ItensPedidoDTO {
         this.valorTotal = valorTotal;
     }
 
-    public ItensPedidoDTO() {
+    public ItensPedidoDto() {
 
     }
 
-    public ItensPedidoDTO(Long idItensPedido, PedidoModel pedido, Long numeroPedido, LocalDate dataCadastro, String codigoProduto, String descricaoProduto, Integer quantidade, BigDecimal desconto, BigDecimal preco, BigDecimal valorTotal) {
+    public ItensPedidoDto(Long idItensPedido, PedidoModel pedido, Long numeroPedido, LocalDate dataCadastro, String codigoProduto, String descricaoProduto, Integer quantidade, BigDecimal desconto, BigDecimal preco, BigDecimal valorTotal) {
     }
 
 
@@ -63,11 +61,11 @@ public class ItensPedidoDTO {
         this.idItensPedido = idItensPedido;
     }
 
-    public PedidoDTO getPedido() {
+    public PedidoDto getPedido() {
         return pedido;
     }
 
-    public void setPedido(PedidoDTO pedido) {
+    public void setPedido(PedidoDto pedido) {
         this.pedido = pedido;
     }
 

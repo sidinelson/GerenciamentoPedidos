@@ -2,10 +2,10 @@ package br.com.pedidos.service;
 
 
 import br.com.pedidos.dto.ItemPedidoResponse;
-import br.com.pedidos.dto.PedidoDTO;
-import br.com.pedidos.dto.PedidoResponse;
+import br.com.pedidos.dto.PedidoDto;
 import br.com.pedidos.infra.PedidoConverter;
 import br.com.pedidos.model.PedidoModel;
+import br.com.pedidos.producer.FecharPedidoProducer;
 import br.com.pedidos.producer.PedidoProducer;
 import br.com.pedidos.repository.ItensPedidoRepository;
 import br.com.pedidos.repository.PedidoRepository;
@@ -33,6 +33,9 @@ public class PedidoService {
     private ItensPedidoRepository itensPedidoRepository;
     @Autowired
     private PedidoProducer pedidoProducer;
+
+    @Autowired
+    private FecharPedidoProducer fecharPedidoParaFila;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -61,8 +64,8 @@ public class PedidoService {
         pedidoRequest.setSituacao("PROCESSANDO");
         calcularValores(pedidoRequest);
         try {
-            PedidoDTO auxPedidoDTO = modelMapper.map(pedidoRequest, PedidoDTO.class);
-            pedidoProducer.enviarPedidoParaFila(auxPedidoDTO);
+            PedidoDto auxPedidoDto = modelMapper.map(pedidoRequest, PedidoDto.class);
+            pedidoProducer.enviarPedidoParaFila(auxPedidoDto);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -113,41 +116,17 @@ public class PedidoService {
     }
 
 
-    public List<ItemPedidoResponse> findByItensPedidosPedidos(Long numeroPedido) {
-        return
-                itensPedidoRepository.findBylistaNumeroPedidosItens(numeroPedido)
-                        .stream()
-                        .map(ItemPedidoResponse::of)
-                        .collect(Collectors.toList());
-    }
-
-    public PedidoDTO findByPedido(Long numeroPedido) {
-
-        PedidoModel pedido = pedidoRepository.findByPedido(numeroPedido);
-
-        if (pedido == null) {
-            throw new RuntimeException("Pedido não encontrado com o número: " + numeroPedido);
+    public String calcularFecharPedido(Long numeroPedido) {
+        PedidoModel pedido = pedidoRepository.consultarPedido(numeroPedido);
+        PedidoDto auxPedidoDto = null;
+        try {
+            auxPedidoDto = pedidoConverter.converterParaDTO(pedido);
+            auxPedidoDto.setSituacao("FINALIZADO");
+            fecharPedidoParaFila.fecharPedidoParaFila(auxPedidoDto);
+        } catch (
+                JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-
-        return new PedidoDTO(
-                pedido.getNumeroPedido(),
-                pedido.getDataCadastro(),
-                pedido.getSituacao(),
-                pedido.getDescontoTotal(),
-                pedido.getValorTotal(),
-                null
-        );
-
-    }
-
-    public String calcularFecharPedido(Long numeroPedido){
-        PedidoModel pedido = pedidoRepository.findByPedido(numeroPedido);
-        if (pedido == null) {
-            throw new RuntimeException("Pedido não encontrado com o número: " + numeroPedido);
-        }
-        pedido.setSituacao("FINALIZADO");
-        pedidoRepository.save(pedido);
-
         return "Pedido fechado com sucesso...";
     }
 

@@ -18,7 +18,6 @@ public class ProdutoExternoBService {
     public ProdutoExternoBModel cadastrarProduto(ProdutoExternoBModel produto) {
         return produtoRepository.save(produto);
     }
-
     public List<ProdutoExternoBModel> listarProdutos() {
         return produtoRepository.findAll();
     }

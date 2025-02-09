@@ -33,8 +33,7 @@ public class ItensPedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar cadastro de Itens PedidoModel"),
     })
-    @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE},
-                 consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping
     public String save(@RequestBody ItensPedidoModel itensPedidoRequest){
 
         itensPedidoService.save(itensPedidoRequest);
@@ -50,7 +49,7 @@ public class ItensPedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
     })
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping
     public ResponseEntity<ItensPedidoModel> findAll() {
         return itensPedidoService.findAll();
     }

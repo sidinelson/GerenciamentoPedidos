@@ -1,15 +1,13 @@
 package br.com.pedidos.infra;
 
-import br.com.pedidos.dto.ItensPedidoDTO;
+import br.com.pedidos.dto.ItensPedidoDto;
 import br.com.pedidos.model.ItensPedidoModel;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ItemPedidoConverter {
 
-    public ItensPedidoDTO converterParaDTO(ItensPedidoModel itensPedidoModel) {
+    public ItensPedidoDto converterParaDTO(ItensPedidoModel itensPedidoModel) {
 
         // Converte de ItemPedido para ItemPedidoDTO
 
@@ -17,7 +15,7 @@ public class ItemPedidoConverter {
             return null;
         }
 
-        return new ItensPedidoDTO(
+        return new ItensPedidoDto(
                 itensPedidoModel.getIdItensPedido(),
                 itensPedidoModel.getPedido(),
                 itensPedidoModel.getNumeroPedido(),
@@ -31,8 +29,8 @@ public class ItemPedidoConverter {
         );
     }
 
-    // Converte de PedidoDTO para Pedido (entidade)
-    public ItensPedidoModel toEntity(ItensPedidoDTO itensPedidoDTO) {
+    // Converte de PedidoDto para Pedido (entidade)
+    public ItensPedidoModel toEntity(ItensPedidoDto itensPedidoDTO) {
 
         if (itensPedidoDTO == null) {
             return null;
