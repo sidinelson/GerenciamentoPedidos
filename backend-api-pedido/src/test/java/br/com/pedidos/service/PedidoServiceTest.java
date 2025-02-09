@@ -1,75 +1,92 @@
 package br.com.pedidos.service;
 
-import br.com.pedidos.infra.PedidoConverter;
+import br.com.pedidos.dto.PedidoDto;
 import br.com.pedidos.model.PedidoModel;
 import br.com.pedidos.repository.PedidoRepository;
-import br.com.pedidos.repository.ItensPedidoRepository;
 import br.com.pedidos.producer.PedidoProducer;
-import br.com.pedidos.producer.FecharPedidoProducer;
-import br.com.pedidos.dto.PedidoDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@Transactional
 public class PedidoServiceTest {
 
-    @Autowired
+    @InjectMocks
     private PedidoService pedidoService;
 
-    @MockBean
+    @Mock
     private PedidoRepository pedidoRepository;
 
-    @MockBean
-    private ItensPedidoRepository itensPedidoRepository;
-
-    @MockBean
+    @Mock
     private PedidoProducer pedidoProducer;
-
-    @MockBean
-    private FecharPedidoProducer fecharPedidoProducer;
-
-    @MockBean
-    private ModelMapper modelMapper;
-
-    @MockBean
-    private PedidoConverter pedidoConverter;
 
     private PedidoModel pedido;
 
     @BeforeEach
-    public void setUp() {
-        // Inicializa um pedido de exemplo
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
         pedido = new PedidoModel();
         pedido.setNumeroPedido(123L);
         pedido.setDataCadastro(LocalDate.now());
+        pedido.setValorTotal(BigDecimal.valueOf(100.0));
+        pedido.setDescontoTotal(BigDecimal.valueOf(10.0));
         pedido.setSituacao("PROCESSANDO");
-        pedido.setValorTotal(BigDecimal.ZERO);
-        pedido.setDescontoTotal(BigDecimal.ZERO);
     }
 
     @Test
-    public void testConsultarPedido() {
-        when(pedidoRepository.buscarPedidoComItens(any(Long.class))).thenReturn(pedido);
-        PedidoModel pedidoConsultado = pedidoService.consultarPedido(123L);
-        assertNotNull(pedidoConsultado);
-        assertEquals(123L, pedidoConsultado.getNumeroPedido());
+    void testSavePedido() throws JsonProcessingException {
+        when(pedidoRepository.existsByNumeroPedido(anyLong())).thenReturn(false);
+        when(pedidoRepository.save(any(PedidoModel.class))).thenReturn(pedido);
+        String result = pedidoService.save(pedido);
+        assertEquals("Pedido aguardando confirmacao...", result);
+        verify(pedidoProducer, times(1)).enviarPedidoParaFila(any(PedidoDto.class));
     }
 
+    @Test
+    void testSavePedidoComNumeroExistente() {
+        when(pedidoRepository.existsByNumeroPedido(anyLong())).thenReturn(true);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            pedidoService.save(pedido);
+        });
+
+        assertEquals("Número de pedido já existe.", exception.getMessage());
+    }
+
+    @Test
+    void testConsultarPedido() {
+        when(pedidoRepository.buscarPedidoComItens(anyLong())).thenReturn(pedido);
+
+        PedidoModel result = pedidoService.consultarPedido(pedido.getNumeroPedido());
+
+        assertNotNull(result);
+        assertEquals(pedido.getNumeroPedido(), result.getNumeroPedido());
+    }
+
+    @Test
+    void testConsultarPedidoNaoEncontrado() {
+        when(pedidoRepository.buscarPedidoComItens(anyLong())).thenReturn(null);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            pedidoService.consultarPedido(999L);
+        });
+
+        assertEquals("Pedido não encontrado com o número: 999", exception.getMessage());
+    }
+
+    @Test
+    void testCalcularFecharPedido() throws JsonProcessingException {
+        when(pedidoRepository.buscarPedidoComItens(anyLong())).thenReturn(pedido);
+
+        String result = pedidoService.calcularFecharPedido(pedido.getNumeroPedido());
+
+        assertEquals("Pedido fechado com sucesso...", result);
+        verify(pedidoProducer, times(1)).enviarPedidoParaFila(any(PedidoDto.class));
+    }
 }

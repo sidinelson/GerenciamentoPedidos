@@ -7,14 +7,11 @@ import br.com.pedidos.producer.ItemPedidoProducer;
 import br.com.pedidos.repository.ItensPedidoRepository;
 import br.com.pedidos.repository.PedidoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
+import org.mockito.*;
+import org.modelmapper.ValidationException;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -22,62 +19,90 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.Mockito.*;
 @SpringBootTest
 public class ItensPedidoServiceTest {
 
     @InjectMocks
     private ItensPedidoService itensPedidoService;
 
-    @MockBean
-    private PedidoRepository pedidoRepository;
-
-    @MockBean
+    @Mock
     private ItensPedidoRepository itensPedidoRepository;
 
-    @MockBean
+    @Mock
+    private PedidoRepository pedidoRepository;
+
+    @Mock
     private ItemPedidoProducer itensPedidoProducer;
 
-    @MockBean
-    private ModelMapper modelMapper;
-
     private ItensPedidoModel itensPedido;
-    private PedidoModel auxPedido;
+    private PedidoModel pedido;
+
     @BeforeEach
-    public void setUp() {
-        // Inicializa um item de pedido de exemplo
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+
+        pedido = new PedidoModel();
+        pedido.setNumeroPedido(123L);
+        pedido.setDataCadastro(LocalDate.now());
+        pedido.setValorTotal(BigDecimal.valueOf(100.0));
+        pedido.setDescontoTotal(BigDecimal.valueOf(10.0));
+        pedido.setSituacao("PROCESSANDO");
+
         itensPedido = new ItensPedidoModel();
-        auxPedido = new PedidoModel();
-        auxPedido.setNumeroOrder(1L);
-        auxPedido.setNumeroPedido(123L);
-        auxPedido.setDataCadastro(LocalDate.now());
-        auxPedido.setDescontoTotal(BigDecimal.ZERO);
-        auxPedido.setValorTotal(BigDecimal.ONE);
-        itensPedido.setPedido(auxPedido);
         itensPedido.setNumeroPedido(123L);
-        itensPedido.setCodigoProduto("P001");
-        itensPedido.setDescricaoProduto("Produto Exemplo");
-        itensPedido.setPreco(BigDecimal.valueOf(100));
-        itensPedido.setDesconto(BigDecimal.valueOf(10));
+        itensPedido.setCodigoProduto("ABC123");
+        itensPedido.setDescricaoProduto("Produto de Teste");
         itensPedido.setQuantidade(2);
+        itensPedido.setPreco(BigDecimal.valueOf(50.0));
+        itensPedido.setDesconto(BigDecimal.valueOf(5.0));
         itensPedido.setDataCadastro(LocalDate.now());
+        itensPedido.setPedido(pedido);
     }
 
     @Test
-    public void testCalcularItensPedido() {
-        // Testa se o cálculo de itens está funcionando corretamente
-        itensPedido.setPreco(BigDecimal.valueOf(100));
-        itensPedido.setDesconto(BigDecimal.valueOf(10));
-        itensPedido.setQuantidade(2);
+    void testSaveItensPedido() throws JsonProcessingException {
+        when(pedidoRepository.findBynumeroIDPedido(anyLong())).thenReturn(123L);
 
-        itensPedidoService.calcularItens(itensPedido);
+        String result = itensPedidoService.save(itensPedido);
 
-        // Verifica se o valor total do item foi calculado corretamente
-        BigDecimal expectedValorTotal = BigDecimal.valueOf(180); // (100 - 10) * 2
-        assertEquals(expectedValorTotal, itensPedido.getValorTotal());
+        assertEquals("Itens aguardando confirmação", result);
+        verify(itensPedidoProducer, times(1)).enviarItemPedidoParaFila(any(ItensPedidoDto.class));
     }
 
+    @Test
+    void testSaveItensPedidoComDuplicidade() {
+        when(itensPedidoService.duplicidadeProduto(anyString())).thenReturn(Optional.of(itensPedido));
+
+        ValidationException exception = assertThrows(ValidationException.class, () -> {
+            itensPedidoService.save(itensPedido);
+        });
+
+        assertEquals("Código do Produto já cadastrado nesse Pedido!", exception.getMessage());
+    }
+
+    @Test
+    void testCalcularItens() {
+        itensPedidoService.calcularItens(itensPedido);
+
+        assertNotNull(itensPedido.getValorTotal());
+        assertEquals(BigDecimal.valueOf(90.0), itensPedido.getValorTotal()); // 2 * (50 - 5)
+    }
+
+    @Test
+    void testFindAllItensPedido() {
+        ResponseEntity<ItensPedidoModel> result = itensPedidoService.findAll();
+        assertNotNull(result);
+    }
+
+    @Test
+    void testFindByItensPedidosPedidos() {
+        when(itensPedidoRepository.findByItensPedidosPedidos(anyLong())).thenReturn(List.of(itensPedido));
+
+        var result = itensPedidoService.findByItensPedidosPedidos(pedido.getNumeroPedido());
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+    }
 }
