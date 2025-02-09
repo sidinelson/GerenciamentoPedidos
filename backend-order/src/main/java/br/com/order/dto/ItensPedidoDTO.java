@@ -52,6 +52,12 @@ public class ItensPedidoDto {
     public ItensPedidoDto(Long idItensPedido, PedidoModel pedido, Long numeroPedido, LocalDate dataCadastro, String codigoProduto, String descricaoProduto, Integer quantidade, BigDecimal desconto, BigDecimal preco, BigDecimal valorTotal) {
     }
 
+    public ItensPedidoDto(long l, long l1, String abc123, String produtoDeTeste, int i, BigDecimal bigDecimal, BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+    }
+
+    public ItensPedidoDto(long l, long l1, LocalDate now, String abc123, String produtoDeTeste, int i, BigDecimal bigDecimal, BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+    }
+
 
     public Long getIdItensPedido() {
         return idItensPedido;
