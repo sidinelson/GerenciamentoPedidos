@@ -31,7 +31,7 @@ git clone https://github.com/sidinelson/GerenciamentoPedidos.git
 ## Uso
 
 1. Inicie o aplicativo com Maven
-2. A API estará acessível em http://localhost:8080
+2. A API estará acessível em http://localhost:8080/api/pedido/
 
 
 ## API Endpoints
