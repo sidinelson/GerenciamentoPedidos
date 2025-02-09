@@ -1,13 +1,13 @@
 package br.com.pedidos.service;
 
 import br.com.pedidos.dto.ItensPedidoDto;
-import br.com.pedidos.infra.ValidationException;
 import br.com.pedidos.model.ItensPedidoModel;
 import br.com.pedidos.model.PedidoModel;
 import br.com.pedidos.producer.ItemPedidoProducer;
 import br.com.pedidos.repository.ItensPedidoRepository;
 import br.com.pedidos.repository.PedidoRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.ValidationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

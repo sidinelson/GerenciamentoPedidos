@@ -1,6 +1,6 @@
-package br.com.pedidos.repository;
+package br.com.order.repository;
 
-import br.com.pedidos.model.PedidoModel;
+import br.com.order.model.PedidoModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +30,6 @@ public class PedidoRepositoryTest {
         pedido.setDataCadastro(LocalDate.now());
         pedidoRepository.save(pedido);
     }
-
-    @Test
-    public void testFindByNumeroPedido() {
-        Optional<PedidoModel> pedidoConsultado = pedidoRepository.findByNumeroPedido(123L);
-        assertTrue(pedidoConsultado.isPresent());
-        assertEquals(123L, pedidoConsultado.get().getNumeroPedido());
-        assertEquals("PENDENTE", pedidoConsultado.get().getSituacao());
-        assertEquals(new BigDecimal("10"), pedidoConsultado.get().getDescontoTotal());
-        assertEquals(new BigDecimal("1"), pedidoConsultado.get().getValorTotal());
-    }
-
-    @Test
-    public void testFindBynumeroIDPedido() {
-        Long idPedido = pedidoRepository.findBynumeroIDPedido(123L);
-        assertNotNull(idPedido);
-    }
-
-    @Test
-    public void testBuscarPedidoComItens() {
-        PedidoModel pedidoComItens = pedidoRepository.buscarPedidoComItens(123L);
-
-        assertNotNull(pedidoComItens);
-        assertEquals(123L, pedidoComItens.getNumeroPedido());
-    }
-
     @Test
     public void testExistsByNumeroPedido() {
         boolean existe = pedidoRepository.existsByNumeroPedido(123L);

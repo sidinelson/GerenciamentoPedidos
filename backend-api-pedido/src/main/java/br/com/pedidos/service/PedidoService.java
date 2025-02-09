@@ -117,8 +117,8 @@ public class PedidoService {
 
 
     public String calcularFecharPedido(Long numeroPedido) {
-        PedidoModel pedido = pedidoRepository.consultarPedido(numeroPedido);
-        PedidoDto auxPedidoDto = null;
+        PedidoModel pedido = pedidoRepository.buscarPedidoComItens(numeroPedido);
+        PedidoDto auxPedidoDto;
         try {
             auxPedidoDto = pedidoConverter.converterParaDTO(pedido);
             auxPedidoDto.setSituacao("FINALIZADO");

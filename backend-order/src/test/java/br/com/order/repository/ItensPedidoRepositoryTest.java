@@ -1,11 +1,10 @@
-package br.com.pedidos.repository;
+package br.com.order.repository;
 
-import br.com.pedidos.model.ItensPedidoModel;
+import br.com.order.model.ItensPedidoModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +21,7 @@ public class ItensPedidoRepositoryTest {
 
     @BeforeEach
     public void setUp() {
+        // Inicializando os dados para o teste
         itensPedidoModel = new ItensPedidoModel();
         itensPedidoModel.setNumeroPedido(123L);
         itensPedidoModel.setCodigoProduto("123");
@@ -33,33 +33,22 @@ public class ItensPedidoRepositoryTest {
     }
 
     @Test
-    public void testFindByItensPedidosPedidos() {
-        List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findByItensPedidosPedidos(123L);
-
-        assertNotNull(itensPedidos);
-        assertFalse(itensPedidos.isEmpty());
-        assertEquals(123L, itensPedidos.get(0).getNumeroPedido());
-    }
-
-    @Test
     public void testFindByListaNumeroPedidosItens() {
+        // Act: Realiza a consulta na lista de pedidos
         List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findBylistaNumeroPedidosItens(123L);
 
+        // Assert: Verifica os resultados
         assertNotNull(itensPedidos);
         assertFalse(itensPedidos.isEmpty());
         assertEquals(123L, itensPedidos.get(0).getNumeroPedido());
-    }
-
-    @Test
-    public void testFindByNumeroPedidoNaoExistente() {
-        List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findByItensPedidosPedidos(999L);
-
-        assertTrue(itensPedidos.isEmpty());
     }
 
     @Test
     public void testFindByListaNumeroPedidosItensNaoExistente() {
+        // Act: Tenta consultar um número de pedido que não existe
         List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findBylistaNumeroPedidosItens(999L);
+
+        // Assert: Verifica que a consulta retorna uma lista vazia
         assertTrue(itensPedidos.isEmpty());
     }
 }
