@@ -39,8 +39,7 @@ A API fornece os seguintes endpoints:
 
 
 **GET PEDIDO**
-```markdown
-GET / pedido - Recuperar uma lista de todos os pedidos por filtro [Número do Pedido, Data Cadastro do Pedido, Um Filtro Todos].
+
 ```
 ```json
 [
