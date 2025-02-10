@@ -1,6 +1,6 @@
 package br.com.order.producers;
 
-import br.com.order.dto.PedidoDTO;
+import br.com.order.dto.PedidoDto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 @Component
@@ -12,7 +12,7 @@ public class PedidoProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void enviarPedido(PedidoDTO pedido) {
+    public void enviarPedido(PedidoDto pedido) {
         rabbitTemplate.convertAndSend(
                 "pedido-response-sucesso-exchanges",
                 "pedido-response-sucesso-rout-key",

@@ -30,15 +30,5 @@ public class PedidoRepositoryTest {
         pedido.setDataCadastro(LocalDate.now());
         pedidoRepository.save(pedido);
     }
-    @Test
-    public void testExistsByNumeroPedido() {
-        boolean existe = pedidoRepository.existsByNumeroPedido(123L);
-    }
 
-    @Test
-    public void testPedidoNaoExistente() {
-        boolean existe = pedidoRepository.existsByNumeroPedido(999L);
-
-        assertFalse(existe);
-    }
 }

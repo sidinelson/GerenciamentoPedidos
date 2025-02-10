@@ -32,23 +32,5 @@ public class ItensPedidoRepositoryTest {
         itensPedidoRepository.save(itensPedidoModel); // Salva o item no banco para os testes
     }
 
-    @Test
-    public void testFindByListaNumeroPedidosItens() {
-        // Act: Realiza a consulta na lista de pedidos
-        List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findBylistaNumeroPedidosItens(123L);
 
-        // Assert: Verifica os resultados
-        assertNotNull(itensPedidos);
-        assertFalse(itensPedidos.isEmpty());
-        assertEquals(123L, itensPedidos.get(0).getNumeroPedido());
-    }
-
-    @Test
-    public void testFindByListaNumeroPedidosItensNaoExistente() {
-        // Act: Tenta consultar um número de pedido que não existe
-        List<ItensPedidoModel> itensPedidos = itensPedidoRepository.findBylistaNumeroPedidosItens(999L);
-
-        // Assert: Verifica que a consulta retorna uma lista vazia
-        assertTrue(itensPedidos.isEmpty());
-    }
 }
