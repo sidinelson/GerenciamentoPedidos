@@ -119,7 +119,66 @@ Pedido fechado com sucesso...
 
 ```
 
-
+**POST CONSULTAR PEDIDO E PRODUTO DOS ITENS DO PEDIDO**
+```markdown
+GET /api/pedido/consultarPedido/ - Consultar pedido no App
+```
+```json
+{
+    "numeroOrder": 15,
+    "numeroPedido": 22899,
+    "dataCadastro": "2025-02-09",
+    "situacao": "PROCESSANDO",
+    "descontoTotal": 100.00,
+    "valorTotal": 18922.00,
+    "itens": [
+        {
+            "idItensPedido": 9,
+            "numeroPedido": 22899,
+            "dataCadastro": "2025-02-09",
+            "codigoProduto": "521",
+            "descricaoProduto": "Chapel",
+            "quantidade": 5,
+            "desconto": 0.00,
+            "preco": 8.40,
+            "valorTotal": 42.00
+        },
+        {
+            "idItensPedido": 10,
+            "numeroPedido": 22899,
+            "dataCadastro": "2025-02-09",
+            "codigoProduto": "456",
+            "descricaoProduto": "Celular Iphone",
+            "quantidade": 1,
+            "desconto": 520.00,
+            "preco": 8500.00,
+            "valorTotal": 7980.00
+        },
+        {
+            "idItensPedido": 11,
+            "numeroPedido": 22899,
+            "dataCadastro": "2025-02-09",
+            "codigoProduto": "562",
+            "descricaoProduto": "Celular Galaxy",
+            "quantidade": 1,
+            "desconto": 1000.00,
+            "preco": 11000.00,
+            "valorTotal": 10000.00
+        },
+        {
+            "idItensPedido": 12,
+            "numeroPedido": 22899,
+            "dataCadastro": "2025-02-09",
+            "codigoProduto": "377",
+            "descricaoProduto": "PUMA",
+            "quantidade": 1,
+            "desconto": 100.00,
+            "preco": 1000.00,
+            "valorTotal": 900.00
+        }
+    ]
+}
+```
 
 ## Banco de Dados
 O Projeto Utilizar
