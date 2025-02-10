@@ -39,7 +39,9 @@ A API fornece os seguintes endpoints:
 
 
 **GET PEDIDO**
-
+```markdown
+POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
+```
 ```
 ```json
 [
