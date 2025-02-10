@@ -119,7 +119,7 @@ Pedido fechado com sucesso...
 
 ```
 
-**POST CONSULTAR PEDIDO E PRODUTO DOS ITENS DO PEDIDO**
+**GET CONSULTAR PEDIDO E PRODUTO DOS ITENS DO PEDIDO**
 ```markdown
 GET /api/pedido/consultarPedido/ - Consultar pedido no App
 ```
