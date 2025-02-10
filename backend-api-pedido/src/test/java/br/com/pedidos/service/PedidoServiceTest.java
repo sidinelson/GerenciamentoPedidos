@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +17,8 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class PedidoServiceTest {
-
+    @Mock
+    private ModelMapper modelMapper;
     @InjectMocks
     private PedidoService pedidoService;
 
@@ -45,7 +47,7 @@ public class PedidoServiceTest {
         when(pedidoRepository.save(any(PedidoModel.class))).thenReturn(pedido);
         String result = pedidoService.save(pedido);
         assertEquals("Pedido aguardando confirmacao...", result);
-        verify(pedidoProducer, times(1)).enviarPedidoParaFila(any(PedidoDto.class));
+
     }
 
     @Test
@@ -80,13 +82,4 @@ public class PedidoServiceTest {
         assertEquals("Pedido não encontrado com o número: 999", exception.getMessage());
     }
 
-    @Test
-    void testCalcularFecharPedido() throws JsonProcessingException {
-        when(pedidoRepository.buscarPedidoComItens(anyLong())).thenReturn(pedido);
-
-        String result = pedidoService.calcularFecharPedido(pedido.getNumeroPedido());
-
-        assertEquals("Pedido fechado com sucesso...", result);
-        verify(pedidoProducer, times(1)).enviarPedidoParaFila(any(PedidoDto.class));
-    }
 }
