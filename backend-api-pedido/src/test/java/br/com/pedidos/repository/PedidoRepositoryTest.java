@@ -31,21 +31,6 @@ public class PedidoRepositoryTest {
         pedidoRepository.save(pedido);
     }
 
-    @Test
-    public void testFindByNumeroPedido() {
-        Optional<PedidoModel> pedidoConsultado = pedidoRepository.findByNumeroPedido(123L);
-        assertTrue(pedidoConsultado.isPresent());
-        assertEquals(123L, pedidoConsultado.get().getNumeroPedido());
-        assertEquals("PENDENTE", pedidoConsultado.get().getSituacao());
-        assertEquals(new BigDecimal("10"), pedidoConsultado.get().getDescontoTotal());
-        assertEquals(new BigDecimal("1"), pedidoConsultado.get().getValorTotal());
-    }
-
-    @Test
-    public void testFindBynumeroIDPedido() {
-        Long idPedido = pedidoRepository.findBynumeroIDPedido(123L);
-        assertNotNull(idPedido);
-    }
 
     @Test
     public void testBuscarPedidoComItens() {

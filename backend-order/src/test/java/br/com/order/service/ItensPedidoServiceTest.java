@@ -53,14 +53,6 @@ public class ItensPedidoServiceTest {
         itensPedido.setDataCadastro(LocalDate.now());
     }
 
-    @Test
-    public void testCalcularItensPedido() {
-        // Testa se o cálculo de itens está funcionando corretamente
-        itensPedido.setPreco(BigDecimal.valueOf(100));
-        itensPedido.setDesconto(BigDecimal.valueOf(10));
-        itensPedido.setQuantidade(2);
 
-        itensPedidoService.calcularItens(itensPedido);
-    }
 
 }

@@ -33,26 +33,13 @@ public class ItensPedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar cadastro de Itens PedidoModel"),
     })
-    @PostMapping
+    @PutMapping
     public String save(@RequestBody ItensPedidoModel itensPedidoRequest){
 
         itensPedidoService.save(itensPedidoRequest);
         return "Item Pedido aguardando confirmação";
     }
 
-
-    @Operation(summary = "Listar todos os itens Pedidos", method = "GET")
-
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
-            @ApiResponse(responseCode = "422", description = "Dados de requisição inválida"),
-            @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
-            @ApiResponse(responseCode = "500", description = "Erro ao realizar busca dos dados"),
-    })
-    @GetMapping
-    public ResponseEntity<ItensPedidoModel> findAll() {
-        return itensPedidoService.findAll();
-    }
 
 
 }

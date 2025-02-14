@@ -30,5 +30,4 @@ public class PedidoRepositoryTest {
         pedido.setDataCadastro(LocalDate.now());
         pedidoRepository.save(pedido);
     }
-
 }

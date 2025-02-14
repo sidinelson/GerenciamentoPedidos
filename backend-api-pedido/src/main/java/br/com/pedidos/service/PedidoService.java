@@ -33,7 +33,6 @@ public class PedidoService {
     private ItensPedidoRepository itensPedidoRepository;
     @Autowired
     private PedidoProducer pedidoProducer;
-
     @Autowired
     private FecharPedidoProducer fecharPedidoParaFila;
     @Autowired
@@ -62,7 +61,6 @@ public class PedidoService {
             pedidoRequest.setDescontoTotal(BigDecimal.ZERO);
         }
         pedidoRequest.setSituacao("PROCESSANDO");
-        calcularValores(pedidoRequest);
         try {
             PedidoDto auxPedidoDto = modelMapper.map(pedidoRequest, PedidoDto.class);
             pedidoProducer.enviarPedidoParaFila(auxPedidoDto);
@@ -73,33 +71,6 @@ public class PedidoService {
         return "Pedido aguardando confirmacao...";
     }
 
-
-    private void calcularValores(PedidoModel pedido) {
-        BigDecimal total = BigDecimal.ZERO;
-        BigDecimal descontoTotal = BigDecimal.ZERO;
-        BigDecimal desconto = BigDecimal.ZERO;
-        BigDecimal totalCalculado = BigDecimal.ZERO;
-
-        if (!isEmpty(pedido.getItens())) {
-            for (var item : pedido.getItens()) {
-
-                total = BigDecimal.ZERO;
-                descontoTotal = BigDecimal.ZERO;
-                desconto = BigDecimal.ZERO;
-
-                desconto = item.getDesconto();
-                BigDecimal subtotal = item.getPreco()
-                        .multiply(new BigDecimal(item.getQuantidade()));
-
-                total = total.add(subtotal).subtract(desconto);
-                descontoTotal = descontoTotal.add(desconto);
-                totalCalculado = totalCalculado.add(total);
-                item.setValorTotal(total);
-            }
-        }
-        pedido.setValorTotal(totalCalculado);
-        pedido.setDescontoTotal(descontoTotal);
-    }
 
     public List<PedidoModel> findAll() {
         return pedidoRepository.findAll();

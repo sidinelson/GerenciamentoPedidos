@@ -31,25 +31,22 @@ public class ItensPedidoService {
     @Autowired
     private ItemPedidoProducer itensPedidoProducer;
 
-    public String save(ItensPedidoModel itensPedidoRequest){
+    public String save(ItensPedidoModel itensPedidoRequest) {
 
-        if(!isEmpty(duplicidadeProduto(itensPedidoRequest.getCodigoProduto()))){
+        if (!isEmpty(duplicidadeProduto(itensPedidoRequest.getCodigoProduto()))) {
             throw new ValidationException("Código do Produto já cadastrado nesse Pedido!");
         }
 
-        if(isEmpty(itensPedidoRequest.getDataCadastro())){
+        if (isEmpty(itensPedidoRequest.getDataCadastro())) {
             LocalDate hoje = LocalDate.now();
             itensPedidoRequest.setDataCadastro(LocalDate.of(hoje.getYear(), hoje.getMonthValue(), hoje.getDayOfMonth()));
         }
 
-         if(isEmpty(itensPedidoRequest.getQuantidade())){
+        if (isEmpty(itensPedidoRequest.getQuantidade())) {
             itensPedidoRequest.setQuantidade(1);
         }
         PedidoModel auxPedido = new PedidoModel();
-        Long numeroOrder = pedidoRepository.findBynumeroIDPedido(itensPedidoRequest.getNumeroPedido());
-        auxPedido.setNumeroOrder(numeroOrder);
         itensPedidoRequest.setPedido(auxPedido);
-        calcularItens(itensPedidoRequest);
         try {
             ItensPedidoDto auxItemPedidoDTO = modelMapper.map(itensPedidoRequest, ItensPedidoDto.class);
 
@@ -58,17 +55,6 @@ public class ItensPedidoService {
             throw new RuntimeException(e);
         }
         return "Itens aguardando confirmação";
-    }
-    public  void calcularItens(ItensPedidoModel itensPedido) {
-        BigDecimal total = BigDecimal.ZERO;
-        BigDecimal itensTotal = itensPedido.getPreco()
-                .subtract(itensPedido.getDesconto())
-                .multiply(BigDecimal.valueOf(itensPedido.getQuantidade()));
-        total = total.add(itensTotal);
-        itensPedido.setValorTotal(total);
-    }
-    public ResponseEntity<ItensPedidoModel> findAll() {
-        return (ResponseEntity<ItensPedidoModel>) itensPedidoRepository.findAll();
     }
 
     public List<ItensPedidoModel> findByItensPedidosPedidos(Long numeroPedido) {
