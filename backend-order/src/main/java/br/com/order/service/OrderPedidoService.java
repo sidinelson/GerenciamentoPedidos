@@ -48,18 +48,16 @@ public class OrderPedidoService {
 
 
     private void calcularValores(PedidoModel pedido) {
-        BigDecimal total = BigDecimal.ZERO;
-        BigDecimal descontoTotal = BigDecimal.ZERO;
-        BigDecimal desconto = BigDecimal.ZERO;
         BigDecimal totalCalculado = BigDecimal.ZERO;
+        BigDecimal descontoTotal = BigDecimal.ZERO;
 
         if (!isEmpty(pedido.getItens())) {
             for (var item : pedido.getItens()) {
 
-                total = BigDecimal.ZERO;
-                desconto = BigDecimal.ZERO;
+                BigDecimal total = BigDecimal.ZERO;
+                BigDecimal desconto = BigDecimal.ZERO;
 
-                desconto = item.getDesconto();
+                desconto = item.getDesconto() != null ? item.getDesconto() : BigDecimal.ZERO;
                 BigDecimal subtotal = item.getPreco()
                         .multiply(new BigDecimal(item.getQuantidade()));
 
@@ -87,8 +85,6 @@ public class OrderPedidoService {
         this.calcularValores(pedidoExistente);
         return pedidoRepository.save(pedidoExistente);
     }
-
-
 
     public String fecharPedido(PedidoModel pedidoModel){
         pedidoRepository.save(pedidoModel);
