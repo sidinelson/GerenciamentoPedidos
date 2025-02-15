@@ -57,7 +57,6 @@ public class OrderPedidoService {
             for (var item : pedido.getItens()) {
 
                 total = BigDecimal.ZERO;
-                descontoTotal = BigDecimal.ZERO;
                 desconto = BigDecimal.ZERO;
 
                 desconto = item.getDesconto();
@@ -96,6 +95,7 @@ public class OrderPedidoService {
 
 
         List<ItensPedidoModel> itens = itensPedidoRepository.findByItensPedidos(pedidoModel.getNumeroPedido());
+        //Cadastrar Produtos Externo B
         if (!isEmpty(itens)) {
             for (var item : itens) {
                 ProdutoExternoBModel produto = new ProdutoExternoBModel();

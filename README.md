@@ -123,58 +123,69 @@ Consultar Pedido no App
 ```
 ```json
 {
-    "numeroOrder": 15,
-    "numeroPedido": 22899,
-    "dataCadastro": "2025-02-09",
-    "situacao": "PROCESSANDO",
-    "descontoTotal": 100.00,
-    "valorTotal": 18922.00,
-    "itens": [
-        {
-            "idItensPedido": 9,
-            "numeroPedido": 22899,
-            "dataCadastro": "2025-02-09",
-            "codigoProduto": "521",
-            "descricaoProduto": "Chapel",
-            "quantidade": 5,
-            "desconto": 0.00,
-            "preco": 8.40,
-            "valorTotal": 42.00
-        },
-        {
-            "idItensPedido": 10,
-            "numeroPedido": 22899,
-            "dataCadastro": "2025-02-09",
-            "codigoProduto": "456",
-            "descricaoProduto": "Celular Iphone",
-            "quantidade": 1,
-            "desconto": 520.00,
-            "preco": 8500.00,
-            "valorTotal": 7980.00
-        },
-        {
-            "idItensPedido": 11,
-            "numeroPedido": 22899,
-            "dataCadastro": "2025-02-09",
-            "codigoProduto": "562",
-            "descricaoProduto": "Celular Galaxy",
-            "quantidade": 1,
-            "desconto": 1000.00,
-            "preco": 11000.00,
-            "valorTotal": 10000.00
-        },
-        {
-            "idItensPedido": 12,
-            "numeroPedido": 22899,
-            "dataCadastro": "2025-02-09",
-            "codigoProduto": "377",
-            "descricaoProduto": "PUMA",
-            "quantidade": 1,
-            "desconto": 100.00,
-            "preco": 1000.00,
-            "valorTotal": 900.00
-        }
-    ]
+  "numeroOrder": 22,
+  "numeroPedido": 50007,
+  "dataCadastro": "2025-02-15",
+  "situacao": "PROCESSANDO",
+  "descontoTotal": 1620.00,
+  "valorTotal": 20322.00,
+  "itens": [
+    {
+      "idItensPedido": 39,
+      "numeroPedido": 50007,
+      "dataCadastro": "2025-02-15",
+      "codigoProduto": "521",
+      "descricaoProduto": "Chapel",
+      "quantidade": 5,
+      "desconto": 0.00,
+      "preco": 8.40,
+      "valorTotal": 42.00
+    },
+    {
+      "idItensPedido": 40,
+      "numeroPedido": 50007,
+      "dataCadastro": "2025-02-15",
+      "codigoProduto": "456",
+      "descricaoProduto": "Celular Iphone",
+      "quantidade": 1,
+      "desconto": 520.00,
+      "preco": 8500.00,
+      "valorTotal": 7980.00
+    },
+    {
+      "idItensPedido": 41,
+      "numeroPedido": 50007,
+      "dataCadastro": "2025-02-15",
+      "codigoProduto": "562",
+      "descricaoProduto": "Celular Galaxy",
+      "quantidade": 1,
+      "desconto": 1000.00,
+      "preco": 11000.00,
+      "valorTotal": 10000.00
+    },
+    {
+      "idItensPedido": 42,
+      "numeroPedido": 50007,
+      "dataCadastro": "2025-02-15",
+      "codigoProduto": "111",
+      "descricaoProduto": "Camisa Polo",
+      "quantidade": 1,
+      "desconto": 0.00,
+      "preco": 300.00,
+      "valorTotal": 300.00
+    },
+    {
+      "idItensPedido": 44,
+      "numeroPedido": 50007,
+      "dataCadastro": "2025-02-15",
+      "codigoProduto": "377",
+      "descricaoProduto": "PUMA",
+      "quantidade": 1,
+      "desconto": 100.00,
+      "preco": 2100.00,
+      "valorTotal": 2000.00
+    }
+  ]
 }
 ```
 

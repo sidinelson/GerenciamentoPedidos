@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @Transactional
-public class PedidoServiceTest {
+public class OrderPedidoServiceTest {
 
     @Autowired
     private OrderPedidoService orderPedidoService;
