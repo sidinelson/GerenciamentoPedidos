@@ -43,4 +43,11 @@ public class PedidoModel implements Serializable {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //@JsonManagedReference
     private List<ItensPedidoModel> itens;
+
+    public void fecharPedido() {
+        if ("FINALIZADO".equalsIgnoreCase(this.situacao)) {
+            throw new RuntimeException("O pedido já está fechado.");
+        }
+        this.situacao = "FINALIZADO";
+    }
 }

@@ -89,6 +89,7 @@ public class PedidoService {
 
     public String fecharPedido(Long numeroPedido) {
         PedidoModel pedido = pedidoRepository.buscarPedidoComItens(numeroPedido);
+        pedido.fecharPedido();
         PedidoDto auxPedidoDto;
         try {
             auxPedidoDto = pedidoConverter.converterParaDTO(pedido);

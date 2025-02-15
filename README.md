@@ -38,7 +38,7 @@ git clone https://github.com/sidinelson/GerenciamentoPedidos.git
 A API fornece os seguintes endpoints:
 
 
-**GET PEDIDO**
+**POST PEDIDO**
 ```markdown
 POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
 ```
@@ -47,7 +47,6 @@ POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
 [
  {
     "numeroPedido": "12225",
-    "situacao": "PROCESSANDO",
     "itens": [
         {
             "numeroPedido":"22225",
@@ -77,27 +76,9 @@ POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
 }
 ]
 
-```
-
-
-
-**POST PEDIDO**
+**PUT ITENS DO PEDIDO**
 ```markdown
-POST /pedido - Cadastre um novo pedido no App
-```
-```json
-{
-    "numeroPedido": "13228",
-    "situacao": "PROCESSANDO"
-}
-```
-
-
-
-
-**POST ITENS DO PEDIDO**
-```markdown
-POST /Itens do Pedido - Cadastre um novo pedido no App
+PUT /Itens do Pedido - Cadastre um novo pedido no App
 ```
 ```json
 {
@@ -111,11 +92,15 @@ POST /Itens do Pedido - Cadastre um novo pedido no App
 ```
 
 
-http://localhost:8080/api/pedido/fercharPedido/22225
-**GET FECHAR PEDIDO**
+http://localhost:8080/api/pedido/fercharPedido
+**PUT FECHAR PEDIDO**
 ```
 Pedido fechado com sucesso...
-
+```json
+{
+    "numeroPedido":"13228"
+}
+```
 
 ```
 

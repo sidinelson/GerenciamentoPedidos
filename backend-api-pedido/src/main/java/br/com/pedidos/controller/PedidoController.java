@@ -77,9 +77,9 @@ public class PedidoController {
             @ApiResponse(responseCode = "400", description = "Parametros inválidos"),
             @ApiResponse(responseCode = "500", description = "Erro ao realizar calculo dos dados"),
     })
-    @PutMapping(path = "/fercharPedido/{numeroPedido}")
-    public String fecharPedidos(@PathVariable Long numeroPedido) {
-        return pedidoService.fecharPedido(numeroPedido);
+    @PutMapping(path = "/fercharPedido")
+    public String fecharPedidos(@RequestBody PedidoModel pedidoRequest) {
+        return pedidoService.fecharPedido(pedidoRequest.getNumeroPedido());
     }
 
 }
