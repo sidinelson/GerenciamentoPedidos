@@ -40,7 +40,9 @@ A API fornece os seguintes endpoints:
 
 **POST PEDIDO**
 ```markdown
-POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
+POST - /api/pedido
+
+*Pedido - Cadastre um novo pedido no App já com os itens do pedido
 ```
 ```
 ```json
@@ -75,10 +77,12 @@ POST /pedido - Cadastre um novo pedido no App já com os itens do pedido
     ]
 }
 ]
-
+```
 **PUT ITENS DO PEDIDO**
 ```markdown
-PUT /Itens do Pedido - Cadastre um novo pedido no App
+PUT - /api/itenspedido
+
+Cadastre um novo Itens de Pedido no App
 ```
 ```json
 {
@@ -92,8 +96,14 @@ PUT /Itens do Pedido - Cadastre um novo pedido no App
 ```
 
 
-http://localhost:8080/api/pedido/fercharPedido
+
+
 **PUT FECHAR PEDIDO**
+
+```markdown
+PUT - /api/pedido/fercharPedido
+
+Fechar um Pedido no App
 ```
 Pedido fechado com sucesso...
 ```json
@@ -103,10 +113,13 @@ Pedido fechado com sucesso...
 ```
 
 ```
+```
+**GET CONSULTAR PEDIDO E ITEM DO PEDIDO**
 
-**GET CONSULTAR PEDIDO E PRODUTO DOS ITENS DO PEDIDO**
 ```markdown
-GET /api/pedido/consultarPedido/ - Consultar pedido no App
+GET /api/pedido/consultarPedido/22899 
+
+Consultar Pedido no App
 ```
 ```json
 {
