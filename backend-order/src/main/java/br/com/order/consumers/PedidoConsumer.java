@@ -3,7 +3,7 @@ package br.com.order.consumers;
 import br.com.order.dto.PedidoDto;
 import br.com.order.infra.PedidoConverter;
 import br.com.order.model.PedidoModel;
-import br.com.order.service.PedidoService;
+import br.com.order.service.OrderPedidoService;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 @Component
 public class PedidoConsumer {
     @Autowired
-    private PedidoService pedidoService;
+    private OrderPedidoService orderPedidoService;
 
     @Autowired
     PedidoConverter pedidoConverter;
@@ -29,7 +29,7 @@ public class PedidoConsumer {
 
         System.out.println("OK"+pedidoDTO);
         System.out.println("pedidoModel - OK"+pedidoModel);
-        pedidoService.save(pedidoModel);
+        orderPedidoService.save(pedidoModel);
     }
 
 }

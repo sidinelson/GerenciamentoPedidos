@@ -3,7 +3,7 @@ package br.com.order.consumers;
 import br.com.order.dto.ItensPedidoDto;
 import br.com.order.infra.ItemPedidoConverter;
 import br.com.order.model.ItensPedidoModel;
-import br.com.order.service.ItensPedidoService;
+import br.com.order.service.OrderItensPedidoService;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItensPedidoConsumer {
     @Autowired
-    private ItensPedidoService pedidoService;
+    private OrderItensPedidoService pedidoService;
     @Autowired
     ItemPedidoConverter itemPedidoConverter;
 

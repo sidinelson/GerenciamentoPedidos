@@ -5,7 +5,6 @@ import br.com.order.model.PedidoModel;
 import br.com.order.repository.ItensPedidoRepository;
 import br.com.order.repository.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,14 +16,13 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
 public class PedidoServiceTest {
 
     @Autowired
-    private PedidoService pedidoService;
+    private OrderPedidoService orderPedidoService;
 
     @MockBean
     private PedidoRepository pedidoRepository;

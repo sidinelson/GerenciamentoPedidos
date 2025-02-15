@@ -2,14 +2,12 @@ package br.com.order.service;
 
 
 
-import br.com.order.dto.ItemPedidoResponse;
 import br.com.order.model.ItensPedidoModel;
 import br.com.order.model.PedidoModel;
 import br.com.order.model.ProdutoExternoBModel;
 import br.com.order.repository.ItensPedidoRepository;
 import br.com.order.repository.PedidoRepository;
 import br.com.order.repository.ProdutoExternoBRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +16,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
-public class PedidoService {
+public class OrderPedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
@@ -34,30 +31,18 @@ public class PedidoService {
 
     @Transactional
     public String save(PedidoModel pedidoRequest) {
-        if (pedidoRepository.existsByNumeroPedido(pedidoRequest.getNumeroPedido())) {
-            throw new RuntimeException("Número de pedido já existe.");
-        }
 
-        if (isEmpty(pedidoRequest.getDataCadastro())) {
-            LocalDate hoje = LocalDate.now();
-            pedidoRequest.setDataCadastro(LocalDate.of(hoje.getYear(), hoje.getMonthValue(), hoje.getDayOfMonth()));
-        }
-
-        if (isEmpty(pedidoRequest.getValorTotal())) {
-            pedidoRequest.setValorTotal(BigDecimal.ZERO);
-        }
-
-        if (isEmpty(pedidoRequest.getDescontoTotal())) {
-            pedidoRequest.setDescontoTotal(BigDecimal.ZERO);
-        }
         pedidoRequest.setSituacao("PROCESSANDO");
         calcularValores(pedidoRequest);
         pedidoRepository.save(pedidoRequest);
 
-        if(!isEmpty(pedidoRequest.getItens()) && pedidoRequest.getItens().size() >0){
-            itensPedidoRepository.atualizarPedidoEmItens(pedidoRequest.getNumeroPedido(), pedidoRequest);
+        List<ItensPedidoModel> itens = pedidoRequest.getItens();
+        if (itens != null && !itens.isEmpty()) {
+            for (ItensPedidoModel item : itens) {
+                item.setPedido(pedidoRequest);
+            }
+            itensPedidoRepository.saveAll(itens);
         }
-
         return "Pedido registrado com sucesso...";
     }
 

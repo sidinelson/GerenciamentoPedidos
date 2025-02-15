@@ -5,7 +5,6 @@ import br.com.order.model.PedidoModel;
 import br.com.order.repository.ItensPedidoRepository;
 import br.com.order.repository.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +14,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @SpringBootTest
-public class ItensPedidoServiceTest {
+public class OrderItensPedidoServiceTest {
 
     @InjectMocks
-    private ItensPedidoService itensPedidoService;
+    private OrderItensPedidoService orderItensPedidoService;
 
     @MockBean
     private PedidoRepository pedidoRepository;

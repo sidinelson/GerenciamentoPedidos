@@ -25,9 +25,4 @@ public interface ItensPedidoRepository extends JpaRepository<ItensPedidoModel, L
             + " ORDER BY i.dataCadastro ASC")//JPQL
     List<ItensPedidoModel> findBylistaNumeroPedidosItens(@Param("numeroPedido") Long numeroPedido);
 
-
-    @Modifying
-    @Query("UPDATE ItensPedidoModel i SET i.pedido = :pedido WHERE i.numeroPedido = :numeroPedido")
-    void atualizarPedidoEmItens(@Param("numeroPedido") Long numeroPedido, @Param("pedido") PedidoModel pedido);
-
 }

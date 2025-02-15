@@ -4,13 +4,12 @@ import br.com.order.consumers.PedidoConsumer;
 import br.com.order.dto.PedidoDto;
 import br.com.order.infra.PedidoConverter;
 import br.com.order.model.PedidoModel;
-import br.com.order.service.PedidoService;
+import br.com.order.service.OrderPedidoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -25,7 +24,7 @@ class PedidoConsumerTest {
     private PedidoConsumer pedidoConsumer;
 
     @Mock
-    private PedidoService pedidoService;
+    private OrderPedidoService orderPedidoService;
 
     @Mock
     private PedidoConverter pedidoConverter;
@@ -61,6 +60,6 @@ class PedidoConsumerTest {
         verify(pedidoConverter, times(1)).toEntity(pedidoDto);
 
         // Verifica se o serviço de salvar foi chamado corretamente
-        verify(pedidoService, times(1)).save(pedidoModel);
+        verify(orderPedidoService, times(1)).save(pedidoModel);
     }
 }

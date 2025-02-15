@@ -4,13 +4,12 @@ import br.com.order.consumers.FecharPedidoConsumer;
 import br.com.order.dto.PedidoDto;
 import br.com.order.infra.PedidoConverter;
 import br.com.order.model.PedidoModel;
-import br.com.order.service.PedidoService;
+import br.com.order.service.OrderPedidoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -25,7 +24,7 @@ class FecharPedidoConsumerTest {
     private FecharPedidoConsumer fecharPedidoConsumer;
 
     @Mock
-    private PedidoService pedidoService;
+    private OrderPedidoService orderPedidoService;
 
     @Mock
     private PedidoConverter pedidoConverter;
@@ -58,6 +57,6 @@ class FecharPedidoConsumerTest {
         verify(pedidoConverter, times(1)).toEntity(pedidoDto);
 
         // Verificando se o método fecharPedido foi chamado com o objeto convertido
-        verify(pedidoService, times(1)).fecharPedido(pedidoModel);
+        verify(orderPedidoService, times(1)).fecharPedido(pedidoModel);
     }
 }

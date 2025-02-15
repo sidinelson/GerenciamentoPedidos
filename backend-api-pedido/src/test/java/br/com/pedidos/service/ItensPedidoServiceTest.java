@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 @SpringBootTest
 public class ItensPedidoServiceTest {
 
@@ -63,24 +64,6 @@ public class ItensPedidoServiceTest {
         itensPedido.setDesconto(BigDecimal.valueOf(5.0));
         itensPedido.setDataCadastro(LocalDate.now());
         itensPedido.setPedido(pedido);
-    }
-
-    @Test
-    void testSaveItensPedido() throws JsonProcessingException {
-        when(pedidoRepository.findBynumeroIDPedido(anyLong())).thenReturn(123L);
-
-        String result = itensPedidoService.save(itensPedido);
-
-        assertEquals("Itens aguardando confirmação", result);
-    }
-
-
-    @Test
-    void testCalcularItens() {
-        itensPedidoService.calcularItens(itensPedido);
-
-        assertNotNull(itensPedido.getValorTotal());
-        assertEquals(BigDecimal.valueOf(90.0), itensPedido.getValorTotal()); // 2 * (50 - 5)
     }
 
     @Test

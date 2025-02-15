@@ -87,7 +87,7 @@ public class PedidoService {
     }
 
 
-    public String calcularFecharPedido(Long numeroPedido) {
+    public String fecharPedido(Long numeroPedido) {
         PedidoModel pedido = pedidoRepository.buscarPedidoComItens(numeroPedido);
         PedidoDto auxPedidoDto;
         try {

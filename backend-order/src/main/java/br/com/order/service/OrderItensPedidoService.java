@@ -17,13 +17,13 @@ import java.util.Optional;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
-public class ItensPedidoService {
+public class OrderItensPedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
     @Autowired
     private ItensPedidoRepository itensPedidoRepository;
     @Autowired
-    private PedidoService pedidoService;
+    private OrderPedidoService orderPedidoService;
 
     public ItensPedidoModel save(ItensPedidoModel itensPedidoRequest) {
 
@@ -47,7 +47,7 @@ public class ItensPedidoService {
         calcularItens(itensPedidoRequest);
 
         var itens = itensPedidoRepository.save(itensPedidoRequest);
-        pedidoService.atualizarTotalPorItemPedido(itensPedidoRequest.getNumeroPedido());
+        orderPedidoService.atualizarTotalPorItemPedido(itensPedidoRequest.getNumeroPedido());
         return itens;
     }
 
