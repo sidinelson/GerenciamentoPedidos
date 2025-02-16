@@ -4,7 +4,7 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 [![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
 
-O projeto é uma API construída usando **Java 17, Java Spring, RabbitMq, MYSQL the database.** 
+O projeto é uma API construída usando **Java 17, Java Spring, Spring Security, RabbitMq, MYSQL the database.**
 
 
 ## Índice
@@ -86,12 +86,12 @@ Cadastre um novo Itens de Pedido no App
 ```
 ```json
 {
-    "numeroPedido":"13228",
-    "codigoProduto":"377",
-    "descricaoProduto":"PUMA",
-    "quantidade": 1,
-    "desconto":100.00,
-    "preco":1000.00
+  "numeroPedido":"13228",
+  "codigoProduto":"377",
+  "descricaoProduto":"PUMA",
+  "quantidade": 1,
+  "desconto":100.00,
+  "preco":1000.00
 }
 ```
 
@@ -108,7 +108,7 @@ Fechar um Pedido no App
 Pedido fechado com sucesso...
 ```json
 {
-    "numeroPedido":"13228"
+  "numeroPedido":"13228"
 }
 ```
 
@@ -117,7 +117,7 @@ Pedido fechado com sucesso...
 **GET CONSULTAR PEDIDO E ITEM DO PEDIDO**
 
 ```markdown
-GET /api/pedido/consultarPedido/22899 
+GET /api/pedido/consultarPedido/22899
 
 Consultar Pedido no App
 ```
