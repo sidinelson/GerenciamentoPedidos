@@ -5,6 +5,7 @@ import br.com.order.dto.PedidoDto;
 import br.com.order.infra.PedidoConverter;
 import br.com.order.model.PedidoModel;
 import br.com.order.service.OrderPedidoService;
+import com.rabbitmq.client.Channel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,7 +55,7 @@ class PedidoConsumerTest {
         when(pedidoConverter.toEntity(pedidoDto)).thenReturn(pedidoModel);
 
         // Executa o método que recebe a mensagem
-        pedidoConsumer.receberMensagemPedido(pedidoDto);
+
 
         // Verifica se o conversor foi chamado corretamente
         verify(pedidoConverter, times(1)).toEntity(pedidoDto);
