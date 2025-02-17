@@ -11,7 +11,7 @@ public class PedidoQueueConfig {
     private static final String PEDIDO_EXCHANGE = "pedido-request-exchange";
     private static final String PEDIDO_ROUTING_KEY = "pedido-request-rout-key";
 
-    private static final String DLQ_QUEUE = "pedido-dlq";
+    private static final String DLQ_QUEUE = "pedido-request-dlq";
     private static final String DLQ_EXCHANGE = "pedido-dlq-exchange";
     private static final String DLQ_ROUTING_KEY = "pedido-dlq-rout-key";
 

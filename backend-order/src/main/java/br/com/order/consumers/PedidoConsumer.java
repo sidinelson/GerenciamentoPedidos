@@ -23,6 +23,8 @@ public class PedidoConsumer {
 
     @Autowired
     private PedidoConverter pedidoConverter;
+    @Autowired
+    private PedidoDLQConsumer pedidoDLQConsumer;
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = "pedido-request-queue", durable = "true"),
@@ -40,7 +42,7 @@ public class PedidoConsumer {
             channel.basicAck(tag, false);
         } catch (Exception e) {
             System.err.println("Erro ao processar pedido: " + e.getMessage());
-
+            pedidoDLQConsumer.processarMensagensDLQ(pedidoDTO);
             // Envia a mensagem para a DLQ após erro
             try {
                 channel.basicNack(tag, false, false);
