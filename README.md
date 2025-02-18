@@ -6,21 +6,17 @@
 ## 📌 Sobre o Projeto
 O **backend-order** é um microserviço desenvolvido em **Java 17** com **Spring Boot**, responsável pelo processamento de pedidos e itens de pedido. Ele recebe pedidos de um sistema externo **A**, processa os valores e envia os dados processados para um sistema externo **B**.
 
-Além disso, ele disponibiliza uma API segura para consulta de pedidos e produtos, garantindo escalabilidade e alta disponibilidade através do uso de **RabbitMQ** para mensageria assíncrona.
+Além disso, ele disponibiliza uma API segura para fechar pedidos e cadastro de produtos, garantindo escalabilidade e alta disponibilidade através do uso de **RabbitMQ** para mensageria assíncrona.
 
 ## 🛠️ Tecnologias Utilizadas
 - **Java 17**
 - **Spring Boot**
-- **Spring Security**
 - **Spring JPA**
-- **MySQL**
 - **RabbitMQ**
-- **Lombok**
 - **Maven 3.4.2**
-- **Swagger** (Documentação da API)
-
+  
 ## 📂 Estrutura do Projeto
-A estrutura do projeto segue a organização por camadas:
+A estrutura do projeto segue a organização por camadas.
 
 
 
