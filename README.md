@@ -23,9 +23,7 @@ A estrutura do projeto segue a organização por camadas.
 ## 🚀 Funcionalidades Principais
 ✔️ **CRUD de Pedidos, Itens de Pedido e Produtos**  
 ✔️ **Processamento assíncrono de pedidos com RabbitMQ**  
-✔️ **Autenticação e segurança com Spring Security**  
 ✔️ **Cálculo automático do valor total do pedido**  
-✔️ **Documentação da API com Swagger**
 
 ## 🔧 Configuração e Execução
 
