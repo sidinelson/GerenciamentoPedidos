@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PedidoDLQConsumer {
 
-    @RabbitListener(queues = "pedido-request-dlq")
+    @RabbitListener(queues = "pedido-queue-dlq")
     public void processarMensagensDLQ(@Payload PedidoDto pedidoDTO) {
         System.err.println("⚠️ Pedido movido para DLQ: " + pedidoDTO);
         // Aqui você pode salvar no banco ou enviar alerta para análise manual

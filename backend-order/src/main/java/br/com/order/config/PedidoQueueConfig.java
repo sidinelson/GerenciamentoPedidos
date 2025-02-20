@@ -11,55 +11,42 @@ public class PedidoQueueConfig {
     private static final String PEDIDO_EXCHANGE = "pedido-request-exchange";
     private static final String PEDIDO_ROUTING_KEY = "pedido-request-rout-key";
 
-    private static final String DLQ_QUEUE = "pedido-request-dlq";
-    private static final String DLQ_EXCHANGE = "pedido-dlq-exchange";
-    private static final String DLQ_ROUTING_KEY = "pedido-dlq-rout-key";
+    private static final String PEDIDO_DLQ_QUEUE = "pedido-queue-dlq";
 
-    // Fila principal com DLQ configurada
+    public static final String PEDIDO_DLQ_EXCHANGE = "order.exchange.dlq";
+    private static final String PEDIDO_DLQ_ROUTING_KEY = "pedido-dlq-rout-key";
+
+
     @Bean
-    public Queue pedidoQueue() {
+    public DirectExchange exchange() {
+        return new DirectExchange(PEDIDO_EXCHANGE);
+    }
+
+    @Bean
+    public Queue queue() {
         return QueueBuilder.durable(PEDIDO_QUEUE)
-                .deadLetterExchange(DLQ_EXCHANGE) // Define a exchange da DLQ
-                .deadLetterRoutingKey(DLQ_ROUTING_KEY) // Define a chave de roteamento da DLQ
-                .ttl(30000) // Tempo de vida da mensagem (30 segundos)
-                .maxLength(5) // Limite de mensagens antes de descartar
+                .deadLetterExchange(PEDIDO_DLQ_EXCHANGE)
+                .deadLetterRoutingKey(PEDIDO_DLQ_ROUTING_KEY)
                 .build();
     }
 
     @Bean
-    public Exchange pedidoExchange() {
-        return ExchangeBuilder.directExchange(PEDIDO_EXCHANGE)
-                .durable(true)
-                .build();
+    public Binding binding() {
+        return BindingBuilder.bind(queue()).to(exchange()).with(PEDIDO_ROUTING_KEY);
     }
 
     @Bean
-    public Binding bindingPedido() {
-        return BindingBuilder.bind(pedidoQueue())
-                .to(pedidoExchange())
-                .with(PEDIDO_ROUTING_KEY)
-                .noargs();
-    }
-
-    // Dead Letter Queue (DLQ)
-    @Bean
-    public Queue pedidoDLQ() {
-        return QueueBuilder.durable(DLQ_QUEUE)
-                .build();
+    public DirectExchange dlqExchange() {
+        return new DirectExchange(PEDIDO_DLQ_EXCHANGE);
     }
 
     @Bean
-    public Exchange pedidoDLQExchange() {
-        return ExchangeBuilder.directExchange(DLQ_EXCHANGE)
-                .durable(true)
-                .build();
+    public Queue dlqQueue() {
+        return QueueBuilder.durable(PEDIDO_DLQ_QUEUE).build();
     }
 
     @Bean
-    public Binding bindingDLQ() {
-        return BindingBuilder.bind(pedidoDLQ())
-                .to(pedidoDLQExchange())
-                .with(DLQ_ROUTING_KEY)
-                .noargs();
+    public Binding dlqBinding() {
+        return BindingBuilder.bind(dlqQueue()).to(dlqExchange()).with(PEDIDO_DLQ_ROUTING_KEY);
     }
 }

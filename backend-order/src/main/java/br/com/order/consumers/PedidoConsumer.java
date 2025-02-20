@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PedidoConsumer {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
 
     @Autowired
     private OrderPedidoService orderPedidoService;
@@ -26,29 +30,20 @@ public class PedidoConsumer {
     @Autowired
     private PedidoDLQConsumer pedidoDLQConsumer;
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "pedido-request-queue", durable = "true"),
+    @RabbitListener(bindings = @QueueBinding(value = @Queue("pedido-request-queue"),
             exchange = @Exchange(name = "pedido-request-exchange"),
-            key = "pedido-request-rout-key"),
-            ackMode = "MANUAL") // Controle manual do RabbitMQ
-    public void receberMensagemPedido(@Payload PedidoDto pedidoDTO,
-                                      Channel channel,
-                                      @Header(AmqpHeaders.DELIVERY_TAG) long tag) {
+            key = "pedido-request-rout-key"))
+    public void receberMensagemPedido(@Payload PedidoDto pedidoDTO) {
         try {
+            // Confirma manualmente o processamento bem-sucedido
             PedidoModel pedidoModel = pedidoConverter.toEntity(pedidoDTO);
             orderPedidoService.save(pedidoModel);
 
-            // Confirma manualmente o processamento bem-sucedido
-            channel.basicAck(tag, false);
         } catch (Exception e) {
             System.err.println("Erro ao processar pedido: " + e.getMessage());
-            pedidoDLQConsumer.processarMensagensDLQ(pedidoDTO);
+            //pedidoDLQConsumer.processarMensagensDLQ(pedidoDTO);
             // Envia a mensagem para a DLQ após erro
-            try {
-                channel.basicNack(tag, false, false);
-            } catch (Exception ex) {
-                System.err.println("Erro ao enviar para DLQ: " + ex.getMessage());
-            }
+            rabbitTemplate.convertAndSend("pedido-exchange-dlq", "pedido-dlq-rout-key", pedidoDTO);
         }
     }
 }
